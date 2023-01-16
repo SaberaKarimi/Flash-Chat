@@ -7,9 +7,9 @@ class RoundedButton extends StatelessWidget {
 
   const RoundedButton(
       {Key? key,
-      required this.title,
-      required this.color,
-      required this.callback})
+        required this.title,
+        required this.color,
+        required this.callback})
       : super(key: key);
 
   @override
