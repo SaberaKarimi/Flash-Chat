@@ -30,21 +30,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               height: 48.0,
             ),
             TextField(
-              decoration: const InputDecoration(
-                hintText: 'Enter your email',
-                contentPadding:
-                    EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.blue, width: 1.0),
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.lightBlue, width: 2.0),
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                ),
+              decoration: kTextFieldDecoration.copyWith(
+                hintText: 'Enter your email'
               ),
               onChanged: (value) {
                 //Do something with the user input
@@ -54,21 +41,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               height: 16,
             ),
             TextField(
-              decoration: const InputDecoration(
+              decoration: kTextFieldDecoration.copyWith(
                 hintText: 'Enter your password',
-                contentPadding:
-                    EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.blue, width: 1.0),
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.lightBlue, width: 2.0),
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                ),
               ),
               onChanged: (value) {
                 //Do something with the user input

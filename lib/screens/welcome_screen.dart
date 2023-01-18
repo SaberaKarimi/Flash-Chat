@@ -29,7 +29,6 @@ class _WelcomeScreenState extends State<WelcomeScreen>
     controller.forward();
 
     controller.addListener(() {
-      print(animation.value);
       setState(() {});
     });
   }
@@ -76,46 +75,52 @@ class _WelcomeScreenState extends State<WelcomeScreen>
             const SizedBox(
               height: 48.0,
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 12),
-              child: Material(
-                elevation: 5.0,
-                color: kLoginButtonColor,
-                borderRadius: BorderRadius.circular(30.0),
-                child: MaterialButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, LoginScreen.id);
-                  },
-                  minWidth: 200.0,
-                  height: 42.0,
-                  child: Text(
-                    'Log In',
-                    style: const TextStyle(color: kWhiteColor),
-                  ),
-                ),
-              ),
-            ),
-            //adding padding
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 12),
-              child: Material(
-                elevation: 5.0,
-                color: kRegisterButtonColor,
-                borderRadius: BorderRadius.circular(30.0),
-                child: MaterialButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, RegistrationScreen.id);
-                  },
-                  minWidth: 200.0,
-                  height: 42.0,
-                  child: Text(
-                    'Register',
-                    style: const TextStyle(color: kWhiteColor),
-                  ),
-                ),
-              ),
+            RoundedButton(
+                color: kLoginButtonColor, title: 'Log In', onPressed: () {
+              Navigator.pushNamed(context, LoginScreen.id);
+            }),
+            RoundedButton(
+              color: kRegisterButtonColor,
+              title: 'Register',
+              onPressed: () {
+                Navigator.pushNamed(context, RegistrationScreen.id);
+              },
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class RoundedButton extends StatelessWidget {
+  final Color color;
+  final String title;
+  final VoidCallback onPressed;
+
+  const RoundedButton({
+    Key? key,
+    required this.color,
+    required this.title,
+    required this.onPressed,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 12),
+      child: Material(
+        elevation: 5.0,
+        color: color,
+        borderRadius: BorderRadius.circular(30.0),
+        child: MaterialButton(
+          onPressed: onPressed,
+          minWidth: 200.0,
+          height: 42.0,
+          child: Text(
+            title,
+            style: const TextStyle(color: kWhiteColor),
+          ),
         ),
       ),
     );
