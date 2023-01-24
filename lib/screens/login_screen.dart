@@ -1,3 +1,4 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flash_chat_starting_project/screens/welcome_screen.dart';
 
 import '/constants.dart';
@@ -30,21 +31,34 @@ class _LoginScreenState extends State<LoginScreen> {
             const SizedBox(
               height: 48.0,
             ),
-            TextField(
-              decoration:
-                  kTextFieldDecoration.copyWith(hintText: 'Enter your email'),
+            TextFormField(
+              decoration: kTextFieldDecoration.copyWith(
+                hintText: 'Enter your email',
+                labelText: 'Email',
+              ),
               onChanged: (value) {
                 //Do something with the user input
+              },
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              validator: (email){
+                return email !=null && EmailValidator.validate(email) ? null: 'Please enter a value email';
               },
             ),
             const SizedBox(
               height: 16,
             ),
-            TextField(
+            TextFormField(
               decoration: kTextFieldDecoration.copyWith(
-                  hintText: 'Enter your password'),
+                  hintText: 'Enter your password', labelText: 'Password'),
+              obscureText: true,
               onChanged: (value) {
                 //Do something with the user input
+              },
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              validator: (password) {
+                return password != null && password.length > 5
+                    ? null
+                    : 'The password should be of 6 charectar at least';
               },
             ),
             const SizedBox(
