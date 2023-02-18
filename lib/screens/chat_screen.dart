@@ -14,6 +14,21 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   final _fireStore=FirebaseFirestore.instance;
   TextEditingController _messageTextController =TextEditingController();
+  // void getMessages () async {
+  //   var messages =await _fireStore.collection('messages').get();
+  //   messages.docs;
+  //   for(var messages in messages.docs){
+  //     print(messages.data());
+  //   }
+  // }
+void messagesStream(){
+  _fireStore.collection('messages').snapshots().listen((event) {
+    for(var messages in event.docs){
+          print(messages.data());
+        }
+  });
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -26,9 +41,10 @@ class _ChatScreenState extends State<ChatScreen> {
           IconButton(
               icon: const Icon(Icons.logout),
               onPressed: () {
-                Navigator.pop(context);
-                AuthService().signOut();
+                // Navigator.pop(context);
+                // AuthService().signOut();
                 // Implement logout functionality
+                messagesStream();
               }),
         ],
         title: const Text('⚡ ️Chat'),
