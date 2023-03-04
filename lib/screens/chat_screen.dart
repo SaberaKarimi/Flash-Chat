@@ -16,20 +16,6 @@ class _ChatScreenState extends State<ChatScreen> {
   final _fireStore = FirebaseFirestore.instance;
   TextEditingController _messageTextController = TextEditingController();
 
-  // void getMessages () async {
-  //   var messages =await _fireStore.collection('messages').get();
-  //   messages.docs;
-  //   for(var messages in messages.docs){
-  //     print(messages.data());
-  //   }
-  // }
-  void messagesStream() {
-    _fireStore.collection('messages').snapshots().listen((event) {
-      for (var messages in event.docs) {
-        print(messages.data());
-      }
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,9 +28,10 @@ class _ChatScreenState extends State<ChatScreen> {
           IconButton(
               icon: const Icon(Icons.logout),
               onPressed: () {
-                Navigator.pop(context);
+                if (Navigator.canPop(context)) {
+                  Navigator.pop(context);
+                }
                 AuthService().signOut();
-                messagesStream();
               }),
         ],
         title: const Text('⚡ ️Chat'),
@@ -69,7 +56,9 @@ class _ChatScreenState extends State<ChatScreen> {
                   TextButton(
                     onPressed: () {
                       _fireStore.collection('messages').add({
-                        'date': DateTime.now().millisecondsSinceEpoch,
+                        'date': DateTime
+                            .now()
+                            .millisecondsSinceEpoch,
                         'text': _messageTextController.text,
                         'sender': AuthService().getCurrentUser!.email,
                       });
@@ -93,14 +82,17 @@ class MessageStream extends StatelessWidget {
   const MessageStream({
     Key? key,
     required FirebaseFirestore fireStore,
-  }) : _fireStore = fireStore, super(key: key);
+  })
+      : _fireStore = fireStore,
+        super(key: key);
 
   final FirebaseFirestore _fireStore;
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: _fireStore.collection('messages').snapshots(),
+      stream: _fireStore.collection('messages').orderBy(
+          'date', descending: true).snapshots(),
       builder: (context, AsyncSnapshot snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Expanded(
@@ -118,11 +110,14 @@ class MessageStream extends StatelessWidget {
             var messageText = message.get('text');
             var sender = message.get('sender');
             Widget messageBubble =
-                MessageBubble(message: messageText, sender: sender);
+            MessageBubble(message: messageText, sender: sender,
+                isMe: AuthService().getCurrentUser!.email == sender
+            );
             messageBubbles.add(messageBubble);
           }
           return Expanded(
             child: ListView(
+              reverse: true,
               children: messageBubbles,
             ),
           );
